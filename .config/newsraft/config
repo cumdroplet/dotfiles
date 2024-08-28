@@ -1,0 +1,2 @@
+notification-command "herbe 'Fetched %q feed updates.' || true"
+bind o exec xdg-open "%l"

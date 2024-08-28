@@ -1,0 +1,150 @@
+#!/bin/sh
+# bulkrename: bulk rename files using $EDITOR and temporary files
+# this file in public domain
+
+EDITOR="${EDITOR:-"${VISUAL:-"vi"}"}"
+
+err() {
+	printf "%s: %s\n" "${0##*/}" "$@" >&2
+	exit 1
+}
+
+hascollision() {
+	i=0
+	for arg
+	do
+		if test "$i" -lt "$nargs"
+		then
+			test "$target" = "$arg" && return
+		else
+			break
+		fi
+		i=$((i+1))
+	done
+	false
+}
+
+# create temporary files
+if ! tmpfile="$(mktemp)"
+then
+	err "could not make temporary file"
+fi
+trap 'rm -f "$tmpfile"' EXIT
+
+# if no argument is passed, fill $@ with lines from stdin
+if [ $# -eq 0 ]
+then                            # run on stdin
+	while read -r line
+	do
+		set -- "$@" "$line"
+	done
+fi
+
+# check if arguments are valid and write them to tmpfile
+nargs="$#"
+for arg
+do
+	case "$arg" in
+	("")
+		err "empty argument"
+		;;
+	(*[[:cntrl:]]*)
+		err "control characters in filenames are not supported"
+		;;
+	([[:space:]]*|*[[:space:]])
+		err "filenames beginning or ending in space is not supported"
+		;;
+	esac
+	if ! test -e "$arg"
+	then
+		err "$arg: file does not exist"
+	fi
+	printf "%s\n" "$arg" >> "$tmpfile"
+done
+
+# call editor on tmpfile
+"$EDITOR" -- "$tmpfile" </dev/tty
+
+# read new filenames from edited tmpfile
+while read -r target && test "$nargs" -gt 0
+do
+	source="$1"
+
+	# for each target filename read from the file there is a
+	# corresponding entry in $@.  We read filenames from the
+	# file up to $nargs, and append $@ with commands:
+	# "rm" "file"           (remove file)
+	# "mv0" "from" "to"     (move file on the next loop)
+	# "mv1" "from" "to"     (move file on the last loop)
+	if test -z "$target"
+	then
+		# line asks to remove file
+		set -- "$@" "rm" "$source"
+	elif test "$target" = "$source"
+	then
+		# line does nothing
+		:
+	elif hascollision "$@"
+	then
+		# line renaming creates filename collision; get unique filename
+		unique="$source"
+		while test -e "$unique"
+		do
+			unique="$unique~"
+		done
+		set -- "$@" "mv0" "$source" "$unique"
+		set -- "$@" "mv1"  "$unique" "$target"
+	else
+		# line is a renaming without collision
+		set -- "$@" "mv0" "$source" "$target"
+	fi
+
+	# we're done with this source file
+	shift
+	nargs="$((nargs - 1))"
+done <"$tmpfile"
+
+# remove remaining arguments (in case file has more lines than we have files)
+shift "$nargs"
+
+# perform the commands specified in the argument list
+while test "$#" -gt 0
+do
+	case "$1" in
+	("rm")
+		rm -- "$2"
+		printf "rm %s\n" "$2"
+		shift 2
+		;;
+	("mv0")
+		mv -- "$2" "$3"
+		printf "%s -> %s\n" "$2" "$3"
+		shift 3
+		;;
+	("mv1")
+		set -- "$@" "mv2" "$2" "$3"
+		shift 3
+		;;
+	("mv2")
+		break
+		;;
+	(*)
+		err "$1: unknown command"
+		;;
+	esac
+done
+
+# perform the commands specified in the argument list (the final ones)
+while test "$#" -gt 0
+do
+	case "$1" in
+	("mv2")
+		mv -- "$2" "$3"
+		printf "%s -> %s\n" "$2" "$3"
+		shift 3
+		;;
+	(*)
+		err "$1: unknown command"
+		;;
+	esac
+done

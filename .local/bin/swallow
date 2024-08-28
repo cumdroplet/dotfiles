@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# hides terminal till command end
+id=$(xdo id)
+xdo hide; "$@"
+xdo show "$id"

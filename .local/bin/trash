@@ -1,0 +1,100 @@
+#!/bin/sh
+# trash: move files to trash
+# this file in public domain
+
+trashdir="${TRASH:-"${XDG_DATA_HOME:-"$HOME/.local/share"}/Trash"}"
+retval=0
+IFS="/"
+
+usage() {
+	echo "usage: trash file..." >&2
+	exit 1
+}
+
+# make trash directory and set its mode
+mktrashdir() {
+	if ! mkdir -p -- "$trashdir/files" "$trashdir/info" >/dev/null 2>&1
+	then
+		echo "trash: unable to create $trashdir"
+		exit 1
+	fi
+	chmod 700 "$trashdir"
+}
+
+# canonicalize "//", "/./", and "/../" from $filename into $path
+setpath() {
+	path=""
+	case "$filename" in
+	([!/]*) filename="$PWD/$filename" ;;
+	esac
+	for segment in $filename
+	do
+		case "$segment" in
+		("")                         ;;
+		(".")                        ;;
+		("..") path="${path%/*}"     ;;
+		(*)    path="$path/$segment" ;;
+		esac
+	done
+}
+
+# break basename of $path into body and extension; set $newfile
+# to "body.ext" (or "body_N.ext", for a unique file)
+setnewfile() {
+	basename="${path##*/}"
+	body="${basename%.*}"
+	ext="${basename##"$body"}"
+	i=""
+	p=""
+	while test -e "$trashdir/files/$body$p$i$ext"
+	do
+		p="_"
+		if [ -z "$i" ]
+		then
+			i=1
+		else
+			i=$((i + 1))
+		fi
+	done
+	newfile="$body$p$i$ext"
+}
+
+# make $trashdir/info/$newfile.trashinfo file containing the original
+# path of the trashed file and its date of deletion
+mktrashinfo() {
+	cat > "$trashdir/info/$newfile.trashinfo" <<-END
+		[Trash Info]
+		Path=$path
+		DeletionDate=$(date +"%FT%H:%M:%S")
+	END
+}
+
+# move $path into $trashdir/files/$newfile
+movetotrash() {
+
+	if ! mv -- "$path" "$trashdir/files/$newfile" >/dev/null 2>&1
+	then
+		echo "trash: $arg: could not move file to trash" >&2
+		retval=1
+	else
+		mktrashinfo
+	fi
+	echo "trashed '$arg'"
+}
+
+[ $# -eq 0 ] && usage
+mktrashdir
+for arg
+do
+	filename="$arg"
+	setpath
+	if test ! -e "$path"
+	then
+		echo "trash: $arg: no such file or directory" >&2
+		retval=1
+	else
+		setnewfile
+		movetotrash
+	fi
+done
+exit $retval

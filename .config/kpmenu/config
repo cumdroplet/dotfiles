@@ -1,0 +1,4 @@
+[style]
+ArgsMenu = "-l 10"
+ArgsEntry = "-l 10"
+ArgsField = "-l 10"

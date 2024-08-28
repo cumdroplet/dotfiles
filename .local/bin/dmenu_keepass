@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# wrapper for kpmenu to open  a database
+# necessary as kpmenu cant handle
+# shell variables in config file
+
+kpmenu -d "$HOME/doc/passwords.kdbx" "$@"

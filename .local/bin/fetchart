@@ -1,0 +1,18 @@
+#!/bin/sh
+# searches file for embedded Listen Brainz data
+# then scrapes the cover art for the song
+
+scrapeimg() {
+	# shellcheck disable=2012
+	musicbrainzid=$(ffprobe -v quiet -show_format -show_streams "$(ls | head -n1)" |
+	grep "TAG:MusicBrainz Release Group Id" |
+	sed "s/TAG:MusicBrainz Release Group Id=//")
+
+	art=$(curl https://musicbrainz.org/release-group/"$musicbrainzid" |
+	pup '.artwork-image span attr{data-small-thumbnail}')
+
+	curl -f -L -o cover.jpg https:"$art"
+}
+
+# shellcheck disable=2015
+[ -f "cover.jpg" ] && echo "Cover art exists already..." || scrapeimg

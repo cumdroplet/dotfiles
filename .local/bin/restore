@@ -1,0 +1,34 @@
+#!/bin/sh
+# untrash: restore files from trash
+# this file in public domain
+
+ret=0
+for file
+do
+	basename="$(basename "$file")"
+	filesdir="$(dirname "$file")"
+	infofile="$filesdir/../info/$basename.trashinfo"
+
+	if ! test -e "$file"
+	then
+		printf "trash: %s: no such file or directory\n" "$file" >&2
+		ret=1
+	elif ! test -f "$infofile"
+	then
+		printf "trash: %s: cannot find original directory\n" "$basename" >&2
+		ret=1
+	elif origfile="$(awk -F= '/Path=/ {print $NF ; exit}' <"$infofile")" && test -e "$origfile"
+	then
+		printf "trash: %s: file already exists on original directory\n" "$basename" >&2
+		ret=1
+	elif ! mv -- "$file" "$origfile" 2>/dev/null
+	then
+		printf "trash: %s: cannot move file to its original directory\n" "$basename" >&2
+		ret=1
+	elif ! rm -- "$infofile"
+	then
+		printf "trash: %s: cannot clean file from trash\n" "$basename" >&2
+		ret=1
+	fi
+done
+exit "$ret"

@@ -1,0 +1,9 @@
+import:
+    move: yes
+
+directory: ~/mus/
+
+paths:
+    default: $albumartist/$year $album/$track $title
+
+plugins: lyrics scrub badfiles embedart

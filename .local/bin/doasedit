@@ -1,0 +1,30 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 <filename>"
+	exit 1
+fi
+
+# Check if the file exists and is readable
+if [ ! -r "$1" ]; then
+	echo "Error: File '$1' does not exist or is not readable."
+	exit 1
+fi
+
+tempfile=$(mktemp) || { echo "Error: Failed to create temporary file."; exit 1; }
+cp "$1" "$tempfile" || { echo "Error: Failed to copy file to temporary location."; rm -f "$tempfile"; exit 1; }
+
+"${EDITOR:=vi}" "$tempfile"
+
+if [ $? -ne 0 ]; then
+	echo "Error: Editing file failed."
+	rm -f "$tempfile"
+	exit 1
+fi
+
+doas cp "$tempfile" "$1" ||
+{ echo "Error: Failed to copy the edited file back to the original location."; rm -f "$tempfile"; exit 1; }
+
+rm -f "$tempfile"
+
+echo "File '$1' successfully edited and saved."

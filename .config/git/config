@@ -1,0 +1,13 @@
+[user]
+	email = pigeon@shitposting.expert
+	name = pigeon
+	signingkey = pigeon@shitposting.expert
+
+[url "https://pigeon@codeberg.org"]
+	insteadOf = "https://codeberg.org"
+
+[commit]
+	gpgSign = true
+
+[log]
+	showSignature = true

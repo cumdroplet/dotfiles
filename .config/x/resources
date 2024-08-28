@@ -1,0 +1,4 @@
+! main
+*.foreground: #ffffff
+*.background: #1d1f21
+*.markcolour: #fba922

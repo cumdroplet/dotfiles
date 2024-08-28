@@ -1,0 +1,13 @@
+#!/bin/sh
+
+setState() {
+	bspc node focused -t "$1"
+}
+
+case $(bspc query -T -n | sed 's/.*state":"//;s/".*//') in
+	"tiled")
+		setState fullscreen
+		;;
+	"fullscreen")
+		setState tiled
+esac

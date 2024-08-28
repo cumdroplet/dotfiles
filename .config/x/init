@@ -1,0 +1,8 @@
+#!/bin/sh
+
+setxkbmap -layout gb &
+xset r rate 300 70 &
+xsetroot -cursor_name left_ptr &
+xrdb merge "$XDG_CONFIG_HOME"/x/resources
+
+exec bspwm

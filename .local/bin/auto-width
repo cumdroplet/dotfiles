@@ -1,0 +1,15 @@
+#!/bin/sh
+
+apply() {
+	if [ "$(bspc query -N -d | wc -l)" = "1" ]; then
+		bspc config border_width 0
+	else
+		bspc config border_width 1
+	fi
+}
+
+apply
+
+bspc subscribe node_focus | while IFS= read -r _; do
+	apply
+done

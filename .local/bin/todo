@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd "$HOME"/doc/notes/todo/"$(date '+%Y')" || exit 1
+
+today=$(date "+%m.%d")
+
+[ -f "$today.txt" ] || sed "/^\$.*$/d" "$(ls | tail -n1)" > "$today.txt"
+
+$EDITOR "$today.txt"

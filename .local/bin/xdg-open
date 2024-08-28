@@ -1,0 +1,31 @@
+#!/bin/sh
+# modify script to use realpath?
+case $1 in
+	https://*)
+		qutebrowser "$1"
+		;;
+	*.mp3|*.flac)
+		mpv "$1"
+		;;
+	*.mp4|*.mkv|*.webm)
+		swallow mpv "$1"
+		;;
+	*.png|*.jpg|*gif|*webp)
+		swallow imv "$1"
+		;;
+	*.pdf)
+		swallow mupdf "$1"
+		;;
+	*.torrent|magnet:?*)
+		# dont seed like an arse
+		# my internet conection is far to week to do so D:
+		# one day, one day i will man
+		herbe "starting torrent..."
+		aria2c --seed-time=0 -d "$HOME/web/" "$1"
+		herbe "torrent completed!"
+		;;
+	*)
+		kak "$1"
+		;;
+esac
+# add multi file support?
