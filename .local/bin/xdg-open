@@ -10,7 +10,7 @@ case $1 in
 	*.mp4|*.mkv|*.webm)
 		swallow mpv "$1"
 		;;
-	*.png|*.jpg|*gif|*webp)
+	*.png|*.jpg|*gif|*webp|*.ico)
 		swallow imv "$1"
 		;;
 	*.pdf)

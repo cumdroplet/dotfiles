@@ -1,5 +1,0 @@
-#!/bin/sh
-#idk how this command works but i need it to connect to wifi,
-#probably should start this with my init shit but we ball yk
-doas wpa_supplicant -B -i wlp3s0 -c /etc/wpa_supplicant/wpa_supplicant.conf &&
-herbe "Auto Connected to WIFI"
