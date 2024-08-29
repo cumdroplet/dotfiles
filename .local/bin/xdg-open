@@ -7,7 +7,7 @@ case $1 in
 	*.mp3|*.flac)
 		mpv "$1"
 		;;
-	*.mp4|*.mkv|*.webm)
+	*.mp4|*.mkv|*.webm|*avi)
 		swallow mpv "$1"
 		;;
 	*.png|*.jpg|*gif|*webp|*.ico)

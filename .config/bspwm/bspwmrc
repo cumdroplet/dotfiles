@@ -1,4 +1,6 @@
-#! /bin/sh
+#!/bin/sh
+
+rm /tmp/bspc.spawn
 
 c() { bspc config "$@" ;}
 m() { bspc monitor "$@" ;}
