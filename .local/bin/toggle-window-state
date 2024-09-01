@@ -1,13 +1,14 @@
 #!/bin/sh
 
-setState() {
+state() {
 	bspc node focused -t "$1"
+	printf "Toggled window state: %s\n" "$1"
 }
 
-case $(bspc query -T -n | sed 's/.*state":"//;s/".*//') in
+case $(bspc query -T -n | jq -r ".client.state") in
 	"tiled")
-		setState fullscreen
+		state fullscreen
 		;;
 	"fullscreen")
-		setState tiled
+		state tiled
 esac

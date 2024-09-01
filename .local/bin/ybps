@@ -1,21 +1,21 @@
-#!/bin/sh
+#!/bin/sh -e
 
 PKG_LIST="$XDG_DATA_HOME/packages"
 
 update_pkg_list() {
 	xbps-query -m |
 	xargs -n1 xbps-uhelper getpkgname > "$PKG_LIST" &&
-	echo "Package list updated: $PKG_LIST"
+	printf "Package list updated: %s\n" "$PKG_LIST"
 }
 
-if [ "$1" = "update" ]; then
-	update_pkg_list
-	exit 0
-fi
+search_repo() {
+	pkg=$(xbps-query -Rs "" |
+	dmenu -i -l 20 |
+	awk '{print $2}')
+	[ -z "$pkg" ] && exit 1
+	printf "%s" "$pkg " | xclip -selection clipboard &&
+	herbe "Package $pkg: copied to clipboard"
+}
 
-pkg=$(xbps-query -Rs "" | dmenu -i -l 20 | awk '{print $2}')
-
-[ -z "$pkg" ] && exit 1
-
-printf "%s" "$pkg " | xclip -selection clipboard &&
-echo "Package $pkg: copied to clipboard"
+[ "$1" = update ] && update_pkg_list
+[ "$1" = search ] && search_repo

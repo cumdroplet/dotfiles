@@ -5,5 +5,8 @@ timestamp=$(date "+%s")
 
 mkdir -p "$SCREENSHOT_DIR" && cd "$SCREENSHOT_DIR"
 
+# bspc query -T -n | jq .rectangle
+# this command should allow me to wright a window capture tool
+
 import -window root "${timestamp}.png" &&
 herbe "Screenshot captured: $timestamp.png"

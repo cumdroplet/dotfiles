@@ -3,6 +3,9 @@
 get_class() {
 	id=$1
 	xprop -id "$id" | sed -n '/WM_CLASS/s/.*, "\(.*\)"/\1/p'
+	# this command should work
+	# bspc query -T -n | jq -r ".client.className"
+	# havent fleshed it out
 }
 
 insert() {
