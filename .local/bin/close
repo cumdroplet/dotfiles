@@ -1,4 +1,15 @@
 #!/bin/sh
 
-kill $(tr '\n' ' ' < /tmp/bspc.spawn)
-rm /tmp/bspc.spawn; bspc wm -r
+window() {
+	id=$(bspc query -N -n focused)
+	xprop -id "$id" | sed -n '/WM_CLASS/s/.*, "\(.*\)"/\1/p'
+}
+
+if [ "$(window)" = "tabbed" ]; then
+	option=$(printf "No\nYes" | dmenu -i)
+	if [ "$option" = Yes ]; then
+		bspc node -c
+	fi
+else
+	bspc node -c
+fi

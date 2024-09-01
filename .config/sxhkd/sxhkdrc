@@ -12,11 +12,11 @@ super + p
 
 # exit or restart BSPWM
 super + q
-	close
+	quit
 
 # close window
 super + shift + x
-	bspc node -c
+	close
 
 # toggle window state
 super + @space
@@ -43,7 +43,7 @@ super + shift + {h,j,k,l,@space}
 	bspc node -p {west,south,north,east,cancel}
 
 # program agnostic tabs
-super + t : {h,j,k,l}
+super + t ; {h,j,k,l}
 	tabc {west,south,north,east}
 
 # expand window size

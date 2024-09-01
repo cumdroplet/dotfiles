@@ -1,0 +1,4 @@
+#!/bin/sh
+
+kill $(tr '\n' ' ' < /tmp/bspc.spawn)
+rm /tmp/bspc.spawn; bspc wm -r
