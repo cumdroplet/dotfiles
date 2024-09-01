@@ -1,5 +1,13 @@
 #!/bin/env bash
 
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+	export XDG_RUNTIME_DIR="/tmp/$(id -u)-runtime-dir"
+	if [ ! -d "$XDG_RUNTIME_DIR" ]; then
+		mkdir -p "$XDG_RUNTIME_DIR"
+		chmod 0700 "$XDG_RUNTIME_DIR"
+	fi
+fi
+
 export XDG_SESSION_TYPE="x11"
 export XDG_CURRENT_DESKTOP="bspwm"
 export XDG_SESSION_DESKTOP="bspwm"
@@ -25,6 +33,7 @@ export HISTSIZE="-1"
 export HISTFILESIZE="-1"
 export HISTCONTROL="ignoredups:erasedups"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_hist"
+export XAUTHORITY="$XDG_RUNTIME_DIR/xauthority"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
