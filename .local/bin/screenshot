@@ -1,14 +1,9 @@
-#!/bin/sh
+#!/bin/sh -e
 
 SCREENSHOT_DIR="${XDG_PICTURES_DIR:-$HOME/pic}/screenshots"
-mkdir -p "$SCREENSHOT_DIR" || { echo "Error: Could not create directory $SCREENSHOT_DIR."; exit 1; }
-cd "$SCREENSHOT_DIR" || { echo "Error: Could not change to directory $SCREENSHOT_DIR."; exit 1; }
-
 timestamp=$(date "+%s")
 
-if magick import -window root "${timestamp}.png"; then
-	herbe "Screenshot captured: $timestamp.png"
-else
-	herbe "Error: Screenshot capture failed."
-	exit 1
-fi
+mkdir -p "$SCREENSHOT_DIR" && cd "$SCREENSHOT_DIR"
+
+import -window root "${timestamp}.png" &&
+herbe "Screenshot captured: $timestamp.png"
