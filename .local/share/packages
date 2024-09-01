@@ -15,6 +15,7 @@ brightnessctl
 bspwm
 curl
 dmenu
+dragon
 entr
 ffmpeg
 font-firacode
@@ -47,6 +48,7 @@ shellcheck
 slock
 sxhkd
 syncthing
+tabbed
 tree
 unicode-emoji
 xclip

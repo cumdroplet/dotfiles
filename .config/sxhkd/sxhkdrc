@@ -42,6 +42,10 @@ super + shift + m
 super + shift + {h,j,k,l,@space}
 	bspc node -p {west,south,north,east,cancel}
 
+# program agnostic tabs
+super + t : {h,j,k,l}
+	tabc {west,south,north,east}
+
 # expand window size
 super + r : {h,j,k,l}
     STEP=20; SELECTION={1,2,3,4}; \

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+get_class() {
+	id=$1
+	xprop -id "$id" | sed -n '/WM_CLASS/s/.*, "\(.*\)"/\1/p'
+}
+
+insert() {
+	target="$1"; shift
+	for window in "$@"; do
+		xdotool windowreparent "$window" "$target"
+	done
+}
+
+[ -z "$1" ] && exit
+
+target=$(bspc query -N -n "$1")
+primarywindow=$(bspc query -N -n focused)
+
+[ -z "$target" ] && exit
+
+# hide window decorations,
+# fixes error while reparenting
+# and drawing unwanted double borders
+bspc config border_width 0
+# this will be undone automaticaly by auto-width
+
+# TODO:
+# combine tabbed windows if both windows are tabbed windows
+
+if [ "$(get_class "$target")" != "tabbed" ]; then
+	secondarywindow="$target"
+	target=$(tabbed -dc)
+	insert "$target" "$primarywindow" "$secondarywindow"
+else
+	insert "$target" "$primarywindow"
+fi
