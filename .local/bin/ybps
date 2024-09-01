@@ -6,16 +6,14 @@ update_pkg_list() {
 	xbps-query -m |
 	xargs -n1 xbps-uhelper getpkgname > "$PKG_LIST" &&
 	printf "Package list updated: %s\n" "$PKG_LIST"
+	exit 1
 }
 
 search_repo() {
-	pkg=$(xbps-query -Rs "" |
-	dmenu -i -l 20 |
-	awk '{print $2}')
+	pkg=$(xbps-query -Rs "" | dmenu -i -l 20 | awk '{print $2}')
 	[ -z "$pkg" ] && exit 1
 	printf "%s" "$pkg " | xclip -selection clipboard &&
 	herbe "Package $pkg: copied to clipboard"
 }
 
-[ "$1" = update ] && update_pkg_list
-[ "$1" = search ] && search_repo
+[ "$1" = update ] && update_pkg_list; search_repo
