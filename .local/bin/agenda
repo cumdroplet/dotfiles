@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+# events
+# habbits?
+# clean duplicates
+
+NOTES="$HOME/doc/notes/log/"
+cur=$(date "+%Y.%m.%d")
+# shellcheck disable=SC2012
+# ls is the correct tool,
+# find wont order the dates correctly
+pre=$(ls | tail -n1)
+
+cd "$NOTES"
+
+[ -f "$cur.txt" ] || sed "/^\$.*$/d" "$pre" > "$cur.txt"
+$EDITOR "$cur.txt"

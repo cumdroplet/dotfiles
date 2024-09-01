@@ -52,9 +52,7 @@ complete -cf man
 complete -cf swallow
 
 bind -x '"\C-f":shfm'
-bind -x '"\C-d":todo'
 bind -x '"\C-l":clear'
-bind -x '"\C-n":newsraft'
 
 shfm() {
 	cd "$(command shfm $@)" ||
