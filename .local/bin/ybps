@@ -1,11 +1,14 @@
 #!/bin/sh -e
 
 PKG_LIST="$XDG_DATA_HOME/packages"
+SER_LIST="$XDG_DATA_HOME/services"
 
 update_pkg_list() {
 	xbps-query -m |
 	xargs -n1 xbps-uhelper getpkgname > "$PKG_LIST" &&
 	printf "Package list updated: %s\n" "$PKG_LIST"
+	ls /var/service/ > "$SER_LIST"
+	printf "Service list updated: %s\n" "$SER_LIST"
 	exit 1
 }
 
