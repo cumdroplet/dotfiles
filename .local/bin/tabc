@@ -1,11 +1,8 @@
-#!/bin/sh
+#!/bin/sh -e
 
 get_class() {
 	id=$1
-	xprop -id "$id" | sed -n '/WM_CLASS/s/.*, "\(.*\)"/\1/p'
-	# this command should work
-	# bspc query -T -n | jq -r ".client.className"
-	# havent fleshed it out
+	bspc query -T -n "$id" | jq -r ".client.className"
 }
 
 insert() {
@@ -15,22 +12,17 @@ insert() {
 	done
 }
 
-[ -z "$1" ] && exit
+[ -z "$1" ] && exit 1
 
 target=$(bspc query -N -n "$1")
 primarywindow=$(bspc query -N -n focused)
 
-[ -z "$target" ] && exit
+[ -z "$target" ] && exit 1
 
-# hide window decorations,
-# fixes error while reparenting
-# and drawing unwanted double borders
+# Hide window decorations to prevent visual errors during reparenting
 bspc config border_width 0
-# this will be undone automaticaly by auto-width
 
-# TODO:
-# combine tabbed windows if both windows are tabbed windows
-
+# TODO: Combine tabbed windows if both windows are tabbed windows
 if [ "$(get_class "$target")" != "tabbed" ]; then
 	secondarywindow="$target"
 	target=$(tabbed -dc)

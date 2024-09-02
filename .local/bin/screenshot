@@ -1,12 +1,35 @@
 #!/bin/sh -e
 
+# todo source xdg dirs properly so i can use
+# the default fallback over my custom location.
+# todo alow screenshoting mouse highlighted region.
+
 SCREENSHOT_DIR="${XDG_PICTURES_DIR:-$HOME/pic}/screenshots"
+region=$(printf "Fullscreen\nWindow" | dmenu -i)
 timestamp=$(date "+%s")
 
 mkdir -p "$SCREENSHOT_DIR" && cd "$SCREENSHOT_DIR"
 
-# bspc query -T -n | jq .rectangle
-# this command should allow me to wright a window capture tool
+locate_window() {
+	bspc query -T -n | jq ".rectangle.$1"
+}
 
-import -window root "${timestamp}.png" &&
-herbe "Screenshot captured: $timestamp.png"
+capture_img() {
+	case $1 in
+		Fullscreen)
+			magick import -window root "${timestamp}.png"
+			;;
+		Window)
+			temp_screenshot="/tmp/temp_screenshot.png"
+			x=$(locate_window x)
+			y=$(locate_window y)
+			w=$(locate_window width)
+			h=$(locate_window height)
+			magick import -window root "$temp_screenshot"
+			magick "$temp_screenshot" -crop "$w"x"$h"+"$x"+"$y" "${timestamp}.png"
+			rm "$temp_screenshot"
+	esac
+}
+
+capture_img  "$region" "$timestamp"
+herbe "$region captured: $timestamp.png"

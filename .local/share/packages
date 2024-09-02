@@ -13,6 +13,7 @@ base-system
 beets
 brightnessctl
 bspwm
+crud
 curl
 dmenu
 dragon
@@ -35,6 +36,7 @@ mpv
 msttcorefonts
 mupdf
 newsraft
+noto-fonts-cjk
 noto-fonts-emoji
 opendoas
 openjdk21
