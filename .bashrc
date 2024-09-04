@@ -21,8 +21,9 @@ source "$XDG_CONFIG_HOME/user-dirs.dirs"
 
 export PS1="\w $ "
 export PATH="$HOME/.local/bin/:$PATH"
-export EDITOR="kak"
-export PAGER="less"
+export VISUAL="kak"
+export EDITOR="$VISUAL"
+export PAGER='less --mouse'
 export BROWSER="qutebrowser"
 export PROMPT_COMMAND='printf "\033]0;$PWD\007"'
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -39,6 +40,7 @@ export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
 alias ls="ls -h --color=auto --group-directories-first"
 alias df="df -h"
+alias du="du -h"
 alias cp="cp -ivr"
 alias mv="mv -iv"
 alias rm="rm -iv"
