@@ -1,8 +1,6 @@
                             Welcome to my dotfiles
 _______________________________________________________________________________
 
-This repo is in the PUBLIC DOMAIN see ./.gitea/LICENSE
-
 My system configurations are intended to be bland, simple and functional. The
 programs required to install this project are commonly packaged in most
 distributions, I would recommend void Linux as it is the operating system I
