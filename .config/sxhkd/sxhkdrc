@@ -18,9 +18,13 @@ super + q
 super + shift + x
 	close
 
-# toggle window state
+# toggle window fullscreen
 super + @space
-	toggle-window-state
+	toggle-window-state fullscreen
+
+# toggle window floating
+super + button2
+	toggle-window-state floating
 
 # send window to workspace
 super + {_,shift + }{1-9,0}

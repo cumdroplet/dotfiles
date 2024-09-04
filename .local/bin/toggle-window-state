@@ -1,5 +1,7 @@
 #!/bin/sh
 
+preferstate="$1"
+
 state() {
 	bspc node focused -t "$1"
 	printf "Toggled window state: %s\n" "$1"
@@ -7,8 +9,8 @@ state() {
 
 case $(bspc query -T -n | jq -r ".client.state") in
 	"tiled")
-		state fullscreen
+		state "$preferstate"
 		;;
-	"fullscreen")
+	*)
 		state tiled
 esac

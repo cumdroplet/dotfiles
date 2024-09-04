@@ -1,8 +1,15 @@
 #!/bin/sh
 
 apply() {
-	if [ "$(bspc query -N -d | wc -l)" -eq "1" ]; then
-		bspc config border_width 0
+	num_windows=$(bspc query -N -d | wc -l)
+	window_state=$(bspc query -T -n | jq -r ".client.state")
+
+	if [ "$num_windows" -eq "1" ]; then
+		if [ "$window_state" = "floating" ]; then
+			bspc config border_width 1
+		else
+			bspc config border_width 0
+		fi
 	else
 		bspc config border_width 1
 	fi
@@ -10,6 +17,6 @@ apply() {
 
 apply
 
-bspc subscribe node_focus | while IFS= read -r _; do
+bspc subscribe node_focus node_state | while IFS= read -r _; do
 	apply
 done

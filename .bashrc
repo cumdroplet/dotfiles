@@ -23,7 +23,7 @@ export PS1="\w $ "
 export PATH="$HOME/.local/bin/:$PATH"
 export VISUAL="kak"
 export EDITOR="$VISUAL"
-export PAGER='less --mouse'
+export PAGER='less --mouse --wheel-lines=3'
 export BROWSER="qutebrowser"
 export PROMPT_COMMAND='printf "\033]0;$PWD\007"'
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
