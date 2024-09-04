@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# check a lisen brainz export file for songs
+# missing in the music brainz databace
+
+jq -r '
+.[] | select(.track_metadata.mbid_mapping.recording_mbid == null) |
+"\(.track_metadata.artist_name) \(.track_metadata.release_name) \(.track_metadata.track_name)"
+' "$1" | sort | uniq
