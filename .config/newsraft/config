@@ -1,3 +1,3 @@
 notification-command "herbe 'Fetched %q feed updates.' || true &"
-bind o exec xdg-open "%l"
+bind o exec "xdg-open '%l' & disown | true"
 feeds-menu-paramount-explore "true"

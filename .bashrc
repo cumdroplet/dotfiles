@@ -17,7 +17,12 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 
-source "$XDG_CONFIG_HOME/user-dirs.dirs"
+if [ -f "$XDG_CONFIG_HOME/user-dirs.dirs" ]; then
+	while read -r line; do
+		eval "$line"
+		export "${line%%=*}"
+	done < "$XDG_CONFIG_HOME/user-dirs.dirs"
+fi
 
 export PS1="\w $ "
 export PATH="$HOME/.local/bin/:$PATH"
@@ -52,6 +57,8 @@ alias shred="shred -zv"
 alias top="htop"
 alias o="xdg-open"
 alias g="git"
+alias n="new-term"
+alias q="exit"
 alias xclip="xclip -selection clipboard"
 
 shopt -s cmdhist
@@ -64,6 +71,10 @@ complete -cf swallow
 
 bind -x '"\C-f":shfm'
 bind -x '"\C-l":clear'
+
+new-term() {
+	alacritty msg create-window --working-directory "$PWD"
+}
 
 shfm() {
 	cd "$(command shfm $@)" ||

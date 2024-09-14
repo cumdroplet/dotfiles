@@ -3,6 +3,7 @@ PrismLauncher
 abduco
 abook
 acpi
+aerc
 alacritty
 alsa-utils
 aria2
@@ -15,6 +16,8 @@ brightnessctl
 bspwm
 crud
 curl
+dict
+dictd
 dmenu
 dragon
 entr
@@ -52,6 +55,7 @@ slock
 sxhkd
 syncthing
 tabbed
+translate-shell
 tree
 unicode-emoji
 xclip
