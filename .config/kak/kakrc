@@ -36,6 +36,10 @@ hook global NormalIdle .* %{
 
 evaluate-commands %sh{
 	graft-add https://github.com/alexherbo2/auto-pairs.kak auto-pairs
+	graft-add https://github.com/raiguard/kak-move-lines move-lines
 }
 
 enable-auto-pairs
+
+map global normal <c-s-j> ': move-lines-down %val{count}<ret>'
+map global normal <c-s-k> ': move-lines-up %val{count}<ret>'
