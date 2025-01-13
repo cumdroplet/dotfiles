@@ -27,11 +27,12 @@ git
 gnupg
 grub-x86_64-efi
 htop
+hunspell-qtwebengine-dict
 imv
 jq
 kakoune
 keepassxc
-libreoffice-qtwebengine-dict
+lf
 mp3val
 mpc
 mpd

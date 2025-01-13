@@ -33,7 +33,6 @@ export BROWSER="qutebrowser"
 export PROMPT_COMMAND='printf "\033]0;$PWD\007"'
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 export OLDPWD="$XDG_CONFIG_HOME"
-export SHFM_OPENER="xdg-open"
 export HISTFILE="$XDG_CACHE_HOME/bash_hist"
 export HISTSIZE="-1"
 export HISTFILESIZE="-1"
@@ -69,16 +68,20 @@ complete -cf doas
 complete -cf man
 complete -cf swallow
 
-bind -x '"\C-f":shfm'
+bind -x '"\C-f":lf'
 bind -x '"\C-l":clear'
 
 new-term() {
 	alacritty msg create-window --working-directory "$PWD"
 }
 
-shfm() {
-	cd "$(command shfm $@)" ||
-	exit 1
+lf() {
+    local tmpfile=$(mktemp)
+    command lf -last-dir-path="$tmpfile" "$@"
+    if [ -s "$tmpfile" ]; then
+        cd "$(cat "$tmpfile")" || return 1
+    fi
+    command rm -f "$tmpfile"
 }
 
 [ "$(tty)" == /dev/tty1 ] && startx "$XDG_CONFIG_HOME/x/init"

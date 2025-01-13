@@ -1,0 +1,14 @@
+clearmaps
+cmd open $xdg-open "$f"
+
+map j down
+map k up
+map h updir
+map l open
+map q quit
+map <space> toggle
+map . set hidden!
+
+set promptfmt "> %d"
+set nopreview
+set ratios 1
