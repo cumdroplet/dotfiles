@@ -34,10 +34,27 @@ hook global NormalIdle .* %{
 	set-face window PrimaryCursorEol default,default+r
 }
 
-evaluate-commands %sh{
-	graft-add https://github.com/alexherbo2/auto-pairs.kak auto-pairs
-	graft-add https://github.com/raiguard/kak-move-lines move-lines
+define-command graft -params 1..2 %{
+	evaluate-commands %sh{
+		plugin_repo="$1"
+		plugin_name="${2:-$(basename "$plugin_repo" .git)}"
+		autoload_dir="$HOME/.config/kak/autoload"
+
+		if [ ! -d "$autoload_dir" ]; then
+			mkdir -p "$autoload_dir" &&
+			ln -s /usr/share/kak/rc/* "$autoload_dir" &&
+			echo "Initialized autoload directory." >&2
+		fi
+
+		if [ ! -d "$autoload_dir/$plugin_name" ]; then
+			git clone "$plugin_repo" "$autoload_dir/$plugin_name" &&
+			echo "Cloned $plugin_name to autoload." >&2
+		fi
+	}
 }
+
+graft https://github.com/alexherbo2/auto-pairs.kak auto-pairs
+graft https://github.com/raiguard/kak-move-lines move-lines
 
 enable-auto-pairs
 
