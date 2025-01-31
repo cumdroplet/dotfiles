@@ -76,12 +76,12 @@ new-term() {
 }
 
 lf() {
-    local tmpfile=$(mktemp)
-    command lf -last-dir-path="$tmpfile" "$@"
-    if [ -s "$tmpfile" ]; then
-        cd "$(cat "$tmpfile")" || return 1
-    fi
-    command rm -f "$tmpfile"
+	local tmpfile=$(mktemp)
+	command lf -last-dir-path="$tmpfile" "$@"
+	if [ -s "$tmpfile" ]; then
+		cd "$(cat "$tmpfile")" || return 1
+	fi
+	command rm -f "$tmpfile"
 }
 
 [ "$(tty)" == /dev/tty1 ] && startx "$XDG_CONFIG_HOME/x/init"

@@ -7,5 +7,5 @@ agetty-tty6
 alsa
 dbus
 dhcpcd
+iwd
 udevd
-wpa_supplicant

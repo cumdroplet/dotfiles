@@ -22,6 +22,9 @@ super + shift + x
 super + @space
 	toggle-window-state fullscreen
 
+super + shift + @space
+	toggle-window-state floating
+
 # toggle window floating
 super + button2
 	toggle-window-state floating
