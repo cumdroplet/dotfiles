@@ -1,5 +1,5 @@
                             Welcome to my dotfiles
-_______________________________________________________________________________
+________________________________________________________________________________
 
 My system configurations are intended to be bland, simple and functional. The
 programs required to install this project are commonly packaged in most
@@ -14,5 +14,5 @@ than installing all the configurations to your setup
 
 For some reason if you do want to install my dot files to your system just
 clone this repository to your home directory, all the dependencies needed to
-run this project are listed in ~/.local/share/doc/packages.txt. Once again I
-would not recommend this, its a really fucking stupid idea to do so.
+run this project are listed in ~/.local/share/packages Once again I would not
+recommend this, its a really fucking stupid idea to do so.
