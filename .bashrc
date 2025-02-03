@@ -39,6 +39,8 @@ export HISTFILESIZE="-1"
 export HISTCONTROL="ignoredups:erasedups"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_hist"
 export XAUTHORITY="$XDG_RUNTIME_DIR/xauthority"
+export GOPATH="$HOME/.local/go"
+export PATH="$PATH:$GOPATH/bin"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 
