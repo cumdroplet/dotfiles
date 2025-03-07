@@ -24,7 +24,8 @@ if [ -f "$XDG_CONFIG_HOME/user-dirs.dirs" ]; then
 	done < "$XDG_CONFIG_HOME/user-dirs.dirs"
 fi
 
-export PS1="\w $ "
+[ "$EUID" -eq 0 ] && export PS1="\w # " || export PS1="\w $ "
+
 export PATH="$HOME/.local/bin/:$PATH"
 export VISUAL="kak"
 export EDITOR="$VISUAL"
