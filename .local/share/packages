@@ -35,6 +35,10 @@ jq
 kakoune
 keepassxc
 lf
+libdrm-32bit
+libgcc-32bit
+libglvnd-32bit
+libstdc++-32bit
 mp3val
 mpc
 mpd
@@ -55,12 +59,16 @@ qrencode
 qutebrowser
 shellcheck
 slock
+steam
 sxhkd
 syncthing
 tabbed
 translate-shell
 tree
 unicode-emoji
+void-repo-multilib
+void-repo-multilib-nonfree
+void-repo-nonfree
 xclip
 xdo
 xdotool
