@@ -35,10 +35,8 @@ jq
 kakoune
 keepassxc
 lf
-libdrm-32bit
-libgcc-32bit
-libglvnd-32bit
-libstdc++-32bit
+libreoffice
+mesa-dri-32bit
 mp3val
 mpc
 mpd
@@ -57,6 +55,7 @@ progress
 pup
 qrencode
 qutebrowser
+retroarch
 shellcheck
 slock
 steam
