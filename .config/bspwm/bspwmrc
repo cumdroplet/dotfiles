@@ -4,6 +4,7 @@ rm /tmp/bspc.spawn
 
 c() { bspc config "$@" ;}
 m() { bspc monitor "$@" ;}
+r() { bspc rule "$@" ;}
 s() { "$@" & echo "$!" >> /tmp/bspc.spawn ;}
 x() { xrdb -q | grep -m1 "$@" | cut -f2 ;}
 
@@ -26,3 +27,5 @@ s picom
 
 s auto-width
 s ybps update
+
+r -a postal state=floating
