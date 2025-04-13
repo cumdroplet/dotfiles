@@ -24,6 +24,11 @@ if [ -f "$XDG_CONFIG_HOME/user-dirs.dirs" ]; then
 	done < "$XDG_CONFIG_HOME/user-dirs.dirs"
 fi
 
+for var in $(grep -oP '^XDG_\w+_DIR' "$XDG_CONFIG_HOME/user-dirs.dirs"); do
+	dir="${!var}"
+	[ -n "$dir" ] && mkdir -p "$dir"
+done
+
 [ "$EUID" -eq 0 ] && export PS1="\w # " || export PS1="\w $ "
 
 export PATH="$HOME/.local/bin/:$PATH"
