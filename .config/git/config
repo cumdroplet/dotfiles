@@ -6,6 +6,9 @@
 [url "https://pigeon@codeberg.org"]
 	insteadOf = "https://codeberg.org"
 
+[url "https://cumdroplet@github.com"]
+	insteadOf = "https://github.com"
+
 [commit]
 	gpgSign = true
 
